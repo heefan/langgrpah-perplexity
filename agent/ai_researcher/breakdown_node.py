@@ -2,8 +2,6 @@
 This node is responsible for creating the steps for the research process.
 """
 
-# pylint: disable=line-too-long
-
 from typing import List
 from datetime import datetime
 from langchain_core.messages import HumanMessage
@@ -15,7 +13,7 @@ from ai_researcher.state import AgentState
 from ai_researcher.model import get_model
 
 
-class SearchStep(BaseModel):
+class BreakdownStep(BaseModel):
     """Model for a search step"""
 
     id: str = Field(description="The id of the step. This is used to identify the step in the state. Just make sure it is unique.")
@@ -25,7 +23,7 @@ class SearchStep(BaseModel):
 
 
 @tool
-def SearchTool(steps: List[SearchStep]): # pylint: disable=invalid-name,unused-argument
+def BreakdownTool(steps: List[BreakdownStep]): 
     """
     Break the user's query into smaller steps.
     Use step type "search" to search the web for information.
@@ -33,7 +31,7 @@ def SearchTool(steps: List[SearchStep]): # pylint: disable=invalid-name,unused-a
     """
 
 
-async def steps_node(state: AgentState, config: RunnableConfig):
+async def breakdown_node(state: AgentState, config: RunnableConfig):
     """
     The steps node is responsible for building the steps in the research process.
     """
@@ -58,8 +56,8 @@ The current date is {datetime.now().strftime("%Y-%m-%d")}.
 """
 
     response = await get_model(state).bind_tools(
-        [SearchTool],
-        tool_choice="SearchTool"
+        [BreakdownTool],
+        tool_choice="BreakdownTool"
     ).ainvoke([
         state["messages"][0],
         HumanMessage(

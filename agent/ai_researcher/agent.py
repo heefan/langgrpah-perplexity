@@ -7,7 +7,7 @@ from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 
 from ai_researcher.state import AgentState
-from ai_researcher.steps import steps_node
+from ai_researcher.breakdown_node import breakdown_node
 from ai_researcher.search import search_node
 from ai_researcher.summarize import summarize_node
 from ai_researcher.extract import extract_node
@@ -29,15 +29,15 @@ def route(state):
 
 # Define a new graph
 workflow = StateGraph(AgentState)
-workflow.add_node("steps_node", steps_node)
+workflow.add_node("breakdown_node", breakdown_node)
 workflow.add_node("search_node", search_node)
 workflow.add_node("summarize_node", summarize_node)
 workflow.add_node("extract_node", extract_node)
 # Chatbot
-workflow.set_entry_point("steps_node")
+workflow.set_entry_point("breakdown_node")
 
 workflow.add_conditional_edges(
-    "steps_node", 
+    "breakdown_node", 
     route,
     ["summarize_node", "search_node", END]
 )
