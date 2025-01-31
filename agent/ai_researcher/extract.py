@@ -6,7 +6,7 @@ import json
 from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from ai_researcher.state import AgentState
-from ai_researcher.model import get_model
+from ai_researcher.utils import get_model
 
 async def extract_node(state: AgentState, config: RunnableConfig):
     """

@@ -10,8 +10,8 @@ from langchain.tools import tool
 from copilotkit.langgraph import copilotkit_customize_config
 from pydantic import BaseModel, Field
 from ai_researcher.state import AgentState
-from ai_researcher.model import get_model
-
+from ai_researcher.utils import get_model
+from langchain_core.messages import BaseMessage
 
 class BreakdownStep(BaseModel):
     """Model for a search step"""
@@ -48,14 +48,12 @@ async def breakdown_node(state: AgentState, config: RunnableConfig):
     )
 
     instructions = f"""
-You are a search assistant. Your task is to help the user with complex search queries by breaking the down into smaller steps.
-
+You are a search assistant. Your task is to help the user with complex search queries by breaking down into smaller steps.
 These steps are then executed serially. In the end, a final answer is produced in markdown format.
-
 The current date is {datetime.now().strftime("%Y-%m-%d")}.
 """
 
-    response = await get_model(state).bind_tools(
+    response: BaseMessage = await get_model(state).bind_tools(
         [BreakdownTool],
         tool_choice="BreakdownTool"
     ).ainvoke([
@@ -64,6 +62,10 @@ The current date is {datetime.now().strftime("%Y-%m-%d")}.
             content=instructions
         ),
     ], config)
+    
+    print("--------------------------------")
+    print(response)
+    print("----------END-------------------")
 
     if len(response.tool_calls) == 0:
         steps = []

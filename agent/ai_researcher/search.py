@@ -7,7 +7,7 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 from langchain_community.tools import TavilySearchResults
 from ai_researcher.state import AgentState
-from ai_researcher.model import get_model
+from ai_researcher.utils import get_model
 async def search_node(state: AgentState, config: RunnableConfig):
     """
     The search node is responsible for searching the internet for information.

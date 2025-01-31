@@ -26,16 +26,6 @@ export function ResearchWrapper() {
             </AnimatePresence>
           )}
         </div>
-        <footer className="text-xs p-2">
-          <a
-            href="https://copilotkit.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-600 font-medium hover:underline"
-          >
-            Powered by CopilotKit 🪁
-          </a>
-        </footer>
       </div>
     </>
   );

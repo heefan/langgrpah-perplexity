@@ -1,9 +1,17 @@
-"""
-This module provides a function to get a model based on the configuration.
-"""
+from PIL import Image
+from langgraph.graph import StateGraph
 import os
 from ai_researcher.state import AgentState
 from langchain_core.language_models.chat_models import BaseChatModel
+
+def print_agent_graph(agent, filename="graph.png"):
+    png_data = agent.get_graph().draw_png()
+    with open(filename, "wb") as f:
+        f.write(png_data)
+    
+    img = Image.open(filename)
+    img.show()
+    
 
 def get_model(state: AgentState) -> BaseChatModel:
     """
