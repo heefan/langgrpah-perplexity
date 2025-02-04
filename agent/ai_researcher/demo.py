@@ -38,10 +38,6 @@ def main():
         port=port,
         reload=True,
         reload_dirs=(
-            ["."] +
-            (["../../../sdk-python/copilotkit"]
-             if os.path.exists("../../../sdk-python/copilotkit")
-             else []
-             )
+            ["."] 
         )
     )
